@@ -1,6 +1,4 @@
 import os
-from mix_bag import Sampler
-from mix_bag import Results
 from mix_bag import Bunch
 from mix_bag import Protein
 from mix_bag import CancerProtein
@@ -86,6 +84,3 @@ def load_data():
                  test2=test2)
 
     return data
-
-
-

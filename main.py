@@ -1,9 +1,8 @@
 from misc import *
 from prediction import *
 from mix_bag import *
-import sys
 import argparse
-
+import networkx as nx
 
 def main():
     # Load the data first

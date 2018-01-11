@@ -1,6 +1,4 @@
-from colorama import Fore, Back, Style
-from colorama import init
-import networkx as nx
+from colorama import Fore, Style
 import random
 
 
@@ -17,22 +15,6 @@ class Sampler(object):
     ----------
     dataset: a list of datapoints
     percentage: relative size of sample w.r.t. size of the dataset.
-
-    Example usage
-    -------------
-    >>> import ppi
-    >>> dataset = [0,1,2,3,4,5,6,7,8,9]
-    >>> percentage_split = 0.7
-    >>> sampler = ppi.classes.Sampler(dataset, percentage_split)
-    >>> sampler.sample
-    set([1, 2, 3, 4, 5, 6, 8])
-    >>> sampler.remainder
-    set([0, 9, 7])
-    >>> sampler.resample()
-    >>> sampler.sample
-    set([0, 3, 4, 5, 7, 8, 9])
-    >>> sampler.remainder
-    set([1, 2, 6])
 
     """
 
@@ -231,7 +213,7 @@ class Protein(Node):
 
     def __repr__(self):
         string = "P%s"
-        subst = (str(self.name), )
+        subst = (str(self.name),)
         return string % subst
 
     def color(self):
@@ -381,11 +363,11 @@ class Results(object):
             print(line % substitutions)
 
     def print_confusion_matrix(self):
-        string = "\n" +\
-                 "Confusion Matrix \n\n" +\
-                 "  Tp  |  Fn        %s  |  %s  \n" +\
-                 "-------------    ------------------\n" +\
-                 "  Fp  |  Tn        %s  |  %s  \n\n" +\
+        string = "\n" + \
+                 "Confusion Matrix \n\n" + \
+                 "  Tp  |  Fn        %s  |  %s  \n" + \
+                 "-------------    ------------------\n" + \
+                 "  Fp  |  Tn        %s  |  %s  \n\n" + \
                  "Precision: %f  Recall: %f  F-Measure: %f"
 
         substitutions = (str(self.true_positives).ljust(3),
@@ -398,7 +380,6 @@ class Results(object):
     def write_to_file(self):
         """Write the results into a file"""
         pass
-
 
     @property
     def precision(self):

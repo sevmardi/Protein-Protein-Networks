@@ -1,7 +1,3 @@
-import networkx as nx
-from operator import *
-from mix_bag import *
-
 def evaluate(predicted_genes, removed_genes, network_annotated_gen):
     pass
 
@@ -19,7 +15,7 @@ def remove_unannotated_genes(network, gene_annotation):
 
 
 def write_test2_prediction(proteins, predictions):
-    f = open('PredictionResultsTest2.txt', 'w')
+    f = open('results/PredictionResultsTest2.txt', 'w')
     for p, pred in zip(proteins, predictions):
         string = ','.join(["Prot_" + str(p), pred]) + '\n'
         f.write(string)
@@ -39,12 +35,8 @@ def predict_cps(proteins, hgraph, fgraph):
 
     prediction = []
     for p in proteins:
-    	if p.cancerweight(hgraph, fgraph) > 15000:
-    		prediction.append('cancer')
-    	else:
-    		prediction.append('nonCancer')
+        if p.cancerweight(hgraph, fgraph) > 15000:
+            prediction.append('cancer')
+        else:
+            prediction.append('nonCancer')
     return prediction
-
-
-
-	

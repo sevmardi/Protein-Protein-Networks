@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 import networkx as nx
 
-from misc import load_data
+from main import load_data
 
 
 def main():

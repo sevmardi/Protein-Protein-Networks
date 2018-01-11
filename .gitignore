@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 data
 PredictionResultsTest2.txt
+.idea
 # C extensions
 *.so
 
