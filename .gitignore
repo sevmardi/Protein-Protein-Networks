@@ -2,9 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
-data
 PredictionResultsTest2.txt
 .idea
+data
 # C extensions
 *.so
 
