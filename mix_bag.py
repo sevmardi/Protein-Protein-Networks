@@ -62,18 +62,6 @@ class Node(object):
         return hash(self.name)
 
     def __eq__(self, other):
-        """
-        Example
-        -------
-        >>> a = Node(3)
-        >>> b = Node(3)
-        >>> c = Node(4)
-        >>> a == b
-        True
-        >>> a == c
-        False
-
-        """
         return self.__dict__ == other.__dict__
 
     def is_function(self):
