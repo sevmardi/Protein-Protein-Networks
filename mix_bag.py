@@ -256,10 +256,10 @@ class Protein(Node):
 
     def cp_degree_of_neighbors(self, hgraph):
         """Returns the sum of cp_degrees of each cancerous protein neighbors """
-        nbrs = self.neigbors(hgraph)
+        nbrs = self.neighbors(hgraph)
         total = 0
         for i in nbrs:
-            total += n.cp_degree(hgraph)
+            total += i.cp_degree(hgraph)
         return total
 
     def cancerweight(self, hgraph, fgraph):
@@ -446,11 +446,11 @@ class Results(object):
 
 
 class Table(object):
-    """Class to facilitate table formatting"""
+    """Helper Class to facilitate table formatting"""
 
     def __init__(self, name="Table_name"):
         self.name = name
-        self.operator = ', '
+        self.separator = ', '
         self.colwidth = 15
         self.arrays = {}
 
@@ -489,8 +489,8 @@ class Table(object):
         arraylength = len(self.arrays.values()[0])
 
         i = 0
-        if i < arraylength:
+        while i < arraylength:
             line = sep.join([str(arrays[c][i]).ljust(width)
-                for c in columns] + "\n"
-        i += 1
-        yield line
+                             for c in columns]) + '\n'
+            i += 1
+            yield line
