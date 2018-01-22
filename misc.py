@@ -5,9 +5,9 @@ from mix_bag import CancerProtein
 from mix_bag import Function
 
 
-def zeros(number, pad_length):
+def zeros(number, padlength):
     """Pad with zeros"""
-    return str(number).zfill(pad_length)
+    return str(number).zfill(padlength)
 
 
 def setup_dirs(*dirs):

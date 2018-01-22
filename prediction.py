@@ -5,9 +5,13 @@ def evaluate(predicted_genes, removed_genes, network_annotated_gen):
 def distribute_cross_validation(network_annotated_gen):
     pass
 
+# TODO
+
 
 def cross_validation(network, network_annotated_gene, gene_annotation, go_num):
     pass
+
+# TODO
 
 
 def remove_unannotated_genes(network, gene_annotation):
@@ -15,6 +19,10 @@ def remove_unannotated_genes(network, gene_annotation):
 
 
 def write_test2_prediction(proteins, predictions):
+    """
+    Just a method to take progeins, and prdictions and save those into a file
+    """
+    
     f = open('results/PredictionResultsTest2.txt', 'w')
     for p, pred in zip(proteins, predictions):
         string = ','.join(["Prot_" + str(p), pred]) + '\n'
@@ -26,11 +34,11 @@ def predict_cps(proteins, hgraph, fgraph):
     """
     Returns list of predictions, i.e. ['cancer','nonCancer', etc.]
 
-	Parameters
-	----------
-	proteins: list of Protein instances.
-	hgraph: networkx.Graph() instance
-	fgraph: networkx.Graph() instance
+        Parameters
+        ----------
+        proteins: list of Protein instances.
+        hgraph: networkx.Graph() instance
+        fgraph: networkx.Graph() instance
     """
 
     prediction = []

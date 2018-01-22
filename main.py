@@ -7,17 +7,22 @@ import networkx as nx
 def main():
     # Load the data first
     data = load_data()
-
+    # Create two graph using networkx
     hgraph = nx.Graph(data.humanppi)
     fgraph = nx.Graph(data.functions)
-    
+    # If chosen to test, run the below.
     if args.test2:
         print('run predictions on test2 set')
         proteins_test2 = data.test2
+        # Run the prediction on test2 
         predictions = predict_cps(proteins_test2, hgraph, fgraph)
         print(zip(proteins_test2, predictions))
+        # Write results to file.
         write_test2_prediction(proteins_test2, predictions)
     else:
+        # take sample if no arguments were provided and test this on test1
+        # and predict the cancer-relatedness of each of the proteins using
+        # methods/algorithms such as Precision, Recall and F-measures
         sampler = Sampler(data.test1, args.samplesize)
         results = []
 
