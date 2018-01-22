@@ -226,7 +226,7 @@ class Protein(Node):
 
     def shared_cp_functions(self, hgraph, fgraph):
         """
-        Returns a list of functions that shares with neighbors 
+        Returns a list of functions that shares with neighbors
         cancerous proteins.
         """
         shared_fns = set()
@@ -245,8 +245,8 @@ class Protein(Node):
 
     def fn_cp_weight(self, hgraph, fgraph):
         """
-        Return a weight based on the cancerweight of the functions that 
-        the protein shares with cancerous neighbors 
+        Return a weight based on the cancerweight of the functions that
+        the protein shares with cancerous neighbors
 
         """
         weight = 0
@@ -291,7 +291,7 @@ class CancerProtein(Protein):
 
 
 class Results(object):
-    """ Results class - Container for a prediction set. Analyses 
+    """ Results class - Container for a prediction set. Analyses
     predictions and calculates Precision, Recall and F-Measure.
 
     Parameters
@@ -382,7 +382,7 @@ class Results(object):
         -------
         Precision, which is defined as:
 
-                                   #True_pos
+                                   # True_pos
                Precision =  --------------------------
                              (#True_pos + #False_pos)
 
@@ -407,7 +407,7 @@ class Results(object):
         -------
         Recall, which is defined as:
 
-                                 #True_pos
+                                 # True_pos
                Recall  = --------------------------
                           (#True_pos + #False_neg)
 
@@ -443,3 +443,54 @@ class Results(object):
             return 0
         else:
             return float(2 * p * r) / (p + r)
+
+
+class Table(object):
+    """Class to facilitate table formatting"""
+
+    def __init__(self, name="Table_name"):
+        self.name = name
+        self.operator = ', '
+        self.colwidth = 15
+        self.arrays = {}
+
+    def add(self, array_name, elem):
+        """ Add element to array """
+        if array_name in self.arrays:
+            self.arrays[array_name].append(elem)
+        else:
+            self.arrays[array_name] = [elem]
+
+    def get_column_order(self):
+        """ Order the columns and return it. """
+        try:
+            columns = self.order
+        except AttributeError:
+            columns = self.arrays.keys()
+        return columns
+
+    def columns_names(self):
+        """ Helper function: Join the ordered columns and join it toegether """
+        columns = self.get_column_order()
+        sep = self.separator
+        string = sep.join(c.ljust(self.colwidth) for c in columns) + '\n'
+        return string
+
+    def lines_iter(self):
+        """ 
+        Iterator for lines to be written. Assumes all arrays are
+        of equal length.
+        Return Iterator
+        """
+        width = self.colwidth
+        sep = self.separator
+        arrays = self.arrays
+        columns = self.get_column_order()
+        arraylength = len(self.arrays.values()[0])
+
+        i = 0
+        if i < arraylength:
+            line = sep.join([str(arrays[c][i]).ljust(width)
+                for c in columns] + "\n"
+        i += 1
+        yield line

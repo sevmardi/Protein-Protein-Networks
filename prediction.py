@@ -32,6 +32,7 @@ def write_test2_prediction(proteins, predictions):
 
 def predict_cps(proteins, hgraph, fgraph):
     """
+    Using the weight functions to predict 2 kind of graphs and make predictions.   
     Returns list of predictions, i.e. ['cancer','nonCancer', etc.]
 
         Parameters

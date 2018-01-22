@@ -28,7 +28,6 @@ def read_file(file_name):
 
 def load_data():
     """ Loads data from the data folder"""
-
     cancer_text = read_file('data/Cancer.txt')
     cancer = [line.strip() for line in cancer_text]
     cancer = [int(line[5:]) for line in cancer]

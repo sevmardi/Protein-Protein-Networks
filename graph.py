@@ -5,7 +5,7 @@ import networkx as nx
 
 from main import load_data
 
-
+#This file is doens't run properly, I won't recommand to run it. 
 def main():
     data = load_data()
     humanppi_G = nx.Graph(data.humanppi, name="HumanPPI")

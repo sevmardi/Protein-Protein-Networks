@@ -2,11 +2,10 @@ import time
 import networkx as nx
 import matplotlib.pyplot as plt
 import argparse
-import math
 from misc import zeros
 from misc import load_data
 
-
+#Plot the proteins using matplotlib lib on 10 iterations.
 def main():
     data = load_data()
 
@@ -19,7 +18,7 @@ def main():
     layout_kw = dict(iterations=args.iterations)
     img_title = 'Nodes: %i  Edges: %i  Iterations: %i  Runtime: %s'
 
-    if args.iterations == None:
+    if args.iterations is None:
         # Number of iters will be set to 10, check the get_iterations method.
         iters = get_iterations()
 
@@ -39,8 +38,8 @@ def main():
             subs = (len(ppiGraph), args.edges, iteration, runtime_str)
             ax.set_title(img_title % subs)
             filepath = 'report/graphs' + '/' + \
-                zeros(iteration, padlength=4) + '.png'
-            plt.savefig(filepath,  bbox_inches='tight')
+                       zeros(iteration, padlength=4) + '.png'
+            plt.savefig(filepath, bbox_inches='tight')
             print("Done! Saved at : " + filepath)
 
             fig.clf()
@@ -52,15 +51,15 @@ def main():
         nx.draw(ppiGraph, pos=nx.spring_layout(
             ppiGraph, **layout_kw), **draw_kwargs)
 
-        runtime = time.time() - starttime
+        runtime = time.time() - start_time
         runtime_str = str(round(runtime, 2)) + ' seconds'
 
         subs = (len(ppiGraph), args.edges, args.iterations, runtime_str)
         ax.set_title(img_title % subs)
 
         filepath = 'report/graphs' + '/' + \
-            zeros(args.iterations, padlength=4) + '.png'
-        plt.savefig(filepath,  bbox_inches='tight')
+                   zeros(args.iterations, padlength=4) + '.png'
+        plt.savefig(filepath, bbox_inches='tight')
         print("Done! Saved at " + filepath)
         fig.clf()
         plt.close()
@@ -86,6 +85,7 @@ def get_options():
                         help='cutoff graph at e edges. ')
     args = parser.parse_args()
     return args
+
 
 if __name__ == '__main__':
     args = get_options()
