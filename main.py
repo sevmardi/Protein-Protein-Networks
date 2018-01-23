@@ -22,25 +22,26 @@ def main():
         write_test2_prediction(proteins_test2, predictions)
     else:
         # take sample if no arguments were provided and test this on test1
-        # and predict the cancer-relatedness of each of the proteins using
-        # methods/algorithms such as Precision, Recall and F-measures
+        # and predict the cancer-relatedness of each of the proteins
         sampler = Sampler(data.test1, args.samplesize)
         results = []
 
         for i in range(args.kfoldcross):
             sample = zip(*sampler.remainder)[0]
             predictions = predict_cps(sample, hgraph, fgraph)
+            # Add remainder of sample and results to empty array and resample
             result = Results(sampler.remainder, predictions)
             results.append(result)
             sampler.resample()
             if args.verbose:
                 result.print_results()
             result.print_confusion_matrix()
+        # evaluate the performance
         f_measures = [i.f_measure for i in results]
         avg_f_measure = sum(f_measures) / float(len(f_measures))
         print("\n\nAverage F-Measure:", avg_f_measure)
-
-        pause = raw_input("Presss any key to continue..")
+        # Exit
+        pause = input("Presss any key to continue..")
 
         return 0
 

@@ -4,6 +4,8 @@ from mix_bag import Protein
 from mix_bag import CancerProtein
 from mix_bag import Function
 
+# Helper class: Some helper functions.
+
 
 def zeros(number, padlength):
     """Pad with zeros"""
