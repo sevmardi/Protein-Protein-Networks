@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from misc import zeros
 from misc import load_data
 
+# Helper class: To do some plotting
+
 
 def main():
     data = load_data()
@@ -14,6 +16,7 @@ def main():
     plot_cp_degree(hgraph)
     # plot_fn_degree(hgraph, fgraph)
     # plot_fn_cp_weight(hgraph, fgraph)
+
 
 def plot_cp_degree(hgraph):
     cps = [p for p in hgraph.nodes() if p.is_cancer_protein()]
@@ -134,7 +137,6 @@ def plot_fn_cp_weight(hgraph, fgraph):
     ax2.set_ylabel('Normalized frequency')
     ax2.set_xlabel('Number of Functions')
 
-
     filepathname = 'report/plots/fn_cp_weight.png'
     plt.savefig(filepathname,  bbox_inches='tight')
     print('Done!' + ' Check this folder => ' + filepathname)
@@ -142,9 +144,6 @@ def plot_fn_cp_weight(hgraph, fgraph):
     plt.close()
 
     del fig
-
-
-
 
 
 def make_function_graphs(data):

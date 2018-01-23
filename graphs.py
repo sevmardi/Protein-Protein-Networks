@@ -5,7 +5,9 @@ import argparse
 from misc import zeros
 from misc import load_data
 
-#Plot the proteins using matplotlib lib on 10 iterations.
+# Helper class: Plot the proteins using matplotlib lib on 10 iterations.
+
+
 def main():
     data = load_data()
 

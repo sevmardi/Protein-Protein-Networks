@@ -3,7 +3,7 @@ import networkx as nx
 from main import load_data
 from mix_bag import Table
 
-# Helper class to generate some stats
+# Helper class: to generate some stats and save those into csv file.
 
 
 def main():

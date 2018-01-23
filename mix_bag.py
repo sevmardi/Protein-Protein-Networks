@@ -51,6 +51,9 @@ class Sampler(object):
 
 
 class Node(object):
+    """
+    A Node class
+    """
 
     def __init__(self, name):
         self.name = name
@@ -208,13 +211,22 @@ class Protein(Node):
         return 'w'
 
     def functions(self, fgraph):
-
+        """
+        Returns
+        -------
+        Neighbors of nodes
+        """
         if self in fgraph.nodes():
             return self.neighbors(fgraph)
         else:
             return []
 
     def fn_degree(self, fgraph):
+        """
+        Returns
+        -------
+        The length of a given graph using the functions method
+        """
         return len(self.functions(fgraph))
 
     def cpp_ratio(self, hgraph):
@@ -245,7 +257,7 @@ class Protein(Node):
 
     def fn_cp_weight(self, hgraph, fgraph):
         """
-        Return a weight based on the cancerweight of the functions that
+        Returns a weight based on the cancerweight of the functions that
         the protein shares with cancerous neighbors
 
         """
@@ -265,8 +277,8 @@ class Protein(Node):
     def cancerweight(self, hgraph, fgraph):
         """
         Returns a weight to determine the likelihood a protein is a cancerous
-        protein """
-
+        protein 
+        """
         return self.fn_cp_weight(hgraph, fgraph)
 
 
@@ -291,7 +303,7 @@ class CancerProtein(Protein):
 
 
 class Results(object):
-    """ Results class - Container for a prediction set. Analyses
+    """ Helper Results class - Container for a prediction set. Analyses
     predictions and calculates Precision, Recall and F-Measure.
 
     Parameters

@@ -4,6 +4,7 @@ from mix_bag import *
 import argparse
 import networkx as nx
 
+
 def main():
     # Load the data first
     data = load_data()
@@ -14,7 +15,7 @@ def main():
     if args.test2:
         print('run predictions on test2 set')
         proteins_test2 = data.test2
-        # Run the prediction on test2 
+        # Run the prediction on test2
         predictions = predict_cps(proteins_test2, hgraph, fgraph)
         print(zip(proteins_test2, predictions))
         # Write results to file.
@@ -42,6 +43,7 @@ def main():
         pause = raw_input("Presss any key to continue..")
 
         return 0
+
 
 def get_options():
     parser = argparse.ArgumentParser()
