@@ -11,6 +11,12 @@ def main():
     # Create two graph using networkx
     hgraph = nx.Graph(data.humanppi)
     fgraph = nx.Graph(data.functions)
+
+    if args.classifier == 'spl':
+        flagged = get_shortest_path(hgraph)
+    else:
+        flagged = []
+
     # If chosen to test, run the below.
     if args.test2:
         print('run predictions on test2 set')
@@ -41,7 +47,7 @@ def main():
         avg_f_measure = sum(f_measures) / float(len(f_measures))
         print("\n\nAverage F-Measure:", avg_f_measure)
         # Exit
-        pause = input("Presss any key to continue..")
+        pause = raw_input("Presss any key to continue..")
 
         return 0
 
@@ -63,6 +69,11 @@ def get_options():
                         action='store_true',
                         help='Run predictions on trainingset Test2.txt.')
 
+    parser.add_argument('-c', '--classifier', default='wnc',
+                        help='Classifier to use in the prediction task. :\
+                        wnc - weighted neighbor counting classifier,\
+                        spl - shortest path length classifier')
+
     args = parser.parse_args()
     return args
 
@@ -71,4 +82,18 @@ if __name__ == '__main__':
     args = get_options()
     assert 0 < args.samplesize < 1
     print(args)
-    main()
+    try:
+        import networkx
+        import colorama
+        import h5py
+        import numpy
+        import matplotlib
+
+        main()
+
+    except Exception as e:
+        raise
+    else:
+        pass
+    finally:
+        pass

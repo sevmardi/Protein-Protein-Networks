@@ -13,9 +13,52 @@ def main():
     hgraph = nx.Graph(data.humanppi)
     fgraph = nx.Graph(data.functions)
 
-    plot_cp_degree(hgraph)
-    # plot_fn_degree(hgraph, fgraph)
-    # plot_fn_cp_weight(hgraph, fgraph)
+    # plot_degree(hgraph)
+    # plot_cp_degree(hgraph)
+    #plot_fn_degree(hgraph, fgraph)
+    plot_fn_cp_weight(hgraph, fgraph)
+
+
+def plot_degree(hgraph):
+
+    cps = [p for p in hgraph.nodes() if p.is_cancer_protein()]
+    ps = [p for p in hgraph.nodes() if not p.is_cancer_protein()]
+
+    cp_degrees_cp = [p.degree(hgraph) for p in cps]
+    avg_cp = round(np.mean(cp_degrees_cp), 2)
+    std_cp = round(np.std(cp_degrees_cp), 2)
+
+    cp_degrees = [p.degree(hgraph) for p in ps]
+    avg = round(np.mean(cp_degrees), 2)
+    std = round(np.std(cp_degrees), 2)
+
+    lims = 50
+    b = 20
+    bins = np.linspace(0, lims, b)
+    kwargs = {'bins': bins,
+              'normed': True,
+              'histtype': 'bar',
+              'color': ['g', 'r'],
+              'label': ['Normal Proteins', 'Cancer Proteins'],
+              'alpha': 0.7
+              }
+
+    plt.hist([cp_degrees, cp_degrees_cp], **kwargs)
+    plt.legend(loc='upper right')
+    #plt.title('Distribution of the number of edges')
+    plt.xlim(0, lims)
+    plt.xticks(np.linspace(0, lims, lims / 5 + 1))
+    plt.ylabel('Normalized frequency')
+    plt.xlabel('Number of edges')
+    plt.text(15, 0.08, 'Normal proteins: Avg: %s   Std: %s' %
+             (str(avg), str(std)))
+    plt.text(15, 0.07, 'Cancer proteins: Avg: %s   Std: %s' %
+             (str(avg_cp), str(std_cp)))
+
+    filepathname = 'report/degrees_combined.png'
+    plt.savefig(filepathname,  bbox_inches='tight')
+    print('Done!' + ' Check this folder => ' + filepathname)
+    plt.show()
 
 
 def plot_cp_degree(hgraph):
@@ -30,34 +73,33 @@ def plot_cp_degree(hgraph):
     avg = round(np.mean(cp_degrees), 2)
     std = round(np.std(cp_degrees), 2)
 
-    fig = plt.figure(figsize=(10, 10))
-    ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212)
-
-    kwargs = {'bins': 50,
+    lims = 15
+    b = 10
+    bins = np.linspace(0, lims, b)
+    kwargs = {'bins': bins,
               'normed': True,
-              'histtype': 'step',
-              'color': 'C0'}
-    ax1.hist(cp_degrees_cp, **kwargs)
-    ax1.set_title('Cancer Proteins Only')
-    ax1.set_xlim(0, 15)
-    ax1.set_ylabel('Normalized frequency')
-    ax1.text(5, 0.3, 'Avg: %s   Std: %s' % (str(avg_cp), str(std_cp)))
+              'histtype': 'bar',
+              'color': ['g', 'r'],
+              'label': ['Normal Proteins', 'Cancer Proteins'],
+              'alpha': 0.7
+              }
 
-    ax2.hist(cp_degrees, **kwargs)
-    ax2.set_title('Non-Cancer Proteins Only')
-    ax2.set_xlim(0, 15)
-    ax2.set_ylabel('Normalized frequency')
-    ax2.set_xlabel('Number of Cancer Protein Neighbors')
-    ax2.text(5, 0.3, 'Avg: %s   Std: %s' % (str(avg), str(std)))
+    plt.hist([cp_degrees, cp_degrees_cp], **kwargs)
+    plt.legend(loc='upper right')
+    #plt.title('Distribution of the number of cancer protein neighbors')
+    plt.xlim(0, lims)
+    plt.xticks(np.linspace(0, lims, lims / 5 + 1))
+    plt.ylabel('Normalized frequency')
+    plt.xlabel('Number of cancer protein neighbors')
+    plt.text(5, 0.25, 'Normal proteins: Avg: %s   Std: %s' %
+             (str(avg), str(std)))
+    plt.text(5, 0.22, 'Cancer proteins: Avg: %s   Std: %s' %
+             (str(avg_cp), str(std_cp)))
 
-    filepathname = 'report/plots/cp_degrees.png'
+    filepathname = 'report/cp_degrees_combined.png'
     plt.savefig(filepathname,  bbox_inches='tight')
     print('Done!' + ' Check this folder => ' + filepathname)
-    fig.clf()
-    plt.close()
-
-    del fig
+    plt.show()
 
 
 def plot_fn_degree(hgraph, fgraph):
@@ -74,35 +116,32 @@ def plot_fn_degree(hgraph, fgraph):
     avg = round(np.mean(ps_fn_degrees), 2)
     std = round(np.std(ps_fn_degrees), 2)
 
-    fig = plt.figure(figsize=(10, 10))
-    ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212)
-
-    kwargs = {'bins': 50,
+    lims = 60
+    b = 30
+    bins = np.linspace(0, lims, b)
+    kwargs = {'bins': bins,
               'normed': True,
-              'histtype': 'step',
-              'color': 'C0'}
+              'histtype': 'bar',
+              'color': ['g', 'r'],
+              'label': ['Normal Proteins', 'Cancer Proteins'],
+              'alpha': 0.7
+              }
 
-    ax1.hist(cps_fn_degrees, **kwargs)
-    ax1.set_title('Cancer Proteins Only')
-    ax1.set_xlim(0, 80)
-    ax1.set_ylabel('Normalized frequency')
-    ax1.text(50, 0.03, 'Avg: %s   Std: %s' % (str(avg_cp), str(std_cp)))
+    plt.hist([ps_fn_degrees, cps_fn_degrees], **kwargs)
+    plt.legend(loc='upper right')
+    plt.xlim(0, lims)
+    plt.xticks(np.linspace(0, lims, lims / 5 + 1))
+    plt.ylabel('Normalized frequency')
+    plt.xlabel('Number of functions')
+    plt.text(20, 0.05, 'Normal proteins: Avg: %s   Std: %s' %
+             (str(avg), str(std)))
+    plt.text(20, 0.045, 'Cancer proteins: Avg: %s   Std: %s' %
+             (str(avg_cp), str(std_cp)))
 
-    ax2.hist(ps_fn_degrees, **kwargs)
-    ax2.set_title('Non-Cancer Proteins Only')
-    ax2.set_xlim(0, 80)
-    ax2.set_ylabel('Normalized frequency')
-    ax2.set_xlabel('Number of Functions')
-    ax2.text(50, 0.03, 'Avg: %s   Std: %s' % (str(avg), str(std)))
-
-    filepathname = 'report/plots/fn_degrees.png'
+    filepathname = 'report/fn_degrees_combined.png'
     plt.savefig(filepathname,  bbox_inches='tight')
     print('Done!' + ' Check this folder => ' + filepathname)
-    fig.clf()
-    plt.close()
-
-    del fig
+    plt.show()
 
 
 def plot_fn_cp_weight(hgraph, fgraph):
@@ -120,34 +159,32 @@ def plot_fn_cp_weight(hgraph, fgraph):
     avg = round(np.mean(ps_fn_cp_weight), 2)
     std = round(np.std(ps_fn_cp_weight), 2)
 
-    fig = plt.figure(figsize=(10, 10))
-    ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212)
-
-    kwargs = {'bins': 50,
+    lims = 80000
+    b = 15
+    bins = np.linspace(0, lims, b)
+    kwargs = {'bins': bins,
               'normed': True,
-              'histtype': 'step',
-              'color': 'k'}
-    ax1.hist(cps_fn_cp_weight, **kwargs)
+              'histtype': 'bar',
+              'color': ['g', 'r'],
+              'label': ['Normal Proteins', 'Cancer Proteins'],
+              'alpha': 0.7
+              }
 
-    ax1.set_title('Cancer Proteins Only')
-    ax1.set_ylabel('Normalized frequency')
-    ax2.hist(ps_fn_cp_weight, **kwargs)
-    ax2.set_title('Non-Cancer Proteins Only')
-    ax2.set_ylabel('Normalized frequency')
-    ax2.set_xlabel('Number of Functions')
+    plt.hist([ps_fn_cp_weight, cps_fn_cp_weight], **kwargs)
+    plt.legend(loc='upper right')
+    plt.xlim(0, lims)
+    plt.xticks(np.linspace(0, lims, 11))
+    plt.ylabel('Normalized frequency')
+    plt.xlabel('Assigned weight')
+    plt.text(15000, 0.00007, 'Normal proteins: Avg: %s   Std: %s' %
+             (str(avg), str(std)))
+    plt.text(15000, 0.00006, 'Cancer proteins: Avg: %s   Std: %s' %
+             (str(avg_cp), str(std_cp)))
 
-    filepathname = 'report/plots/fn_cp_weight.png'
+    filepathname = 'report/fn_w_combined.png'
     plt.savefig(filepathname,  bbox_inches='tight')
     print('Done!' + ' Check this folder => ' + filepathname)
-    fig.clf()
-    plt.close()
-
-    del fig
-
-
-def make_function_graphs(data):
-    pass
+    plt.show()
 
 
 if __name__ == '__main__':

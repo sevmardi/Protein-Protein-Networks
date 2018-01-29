@@ -1,11 +1,9 @@
-def evaluate(predicted_genes, removed_genes, network_annotated_gen):
-    pass
+import networkx as nx
 
 
-@deprecated
 def distribute_cross_validation(network_annotated_gen):
     """
-    distrite all annotated gene to different cross validation group
+    @deprecated DOT NOT USE :distribute all annotated gene to different cross validation group
     """
     group_genes = {}
     index = 0
@@ -18,9 +16,9 @@ def distribute_cross_validation(network_annotated_gen):
         index += 1
     return group_genes
 
-@deprecated
+
 def cross_validation(network, network_annotated_gene, gene_annotation, go_num):
-    """ Put annotated gene into different cross validation groups"""
+    """ @deprecated: DO NOT USE: Put annotated gene into different cross validation groups"""
     group_genes = distribute_cross_validation(network_annotated_gen)
 
     recall_avg = 0.0
@@ -33,16 +31,18 @@ def cross_validation(network, network_annotated_gene, gene_annotation, go_num):
         for gene in network_annotated_gene:
             if not gene in removed_genes:
                 annotated_gene_cv[gene] = network_annotated_gene[gene]
-        #... 
+        #...
+
 
 def remove_unannotated_genes(network, gene_annotation):
     """
-    Remove unannotated gene from network
+    @deprecated: DO NOT USE:Remove unannotated gene from network
     """
     for node in network.nodes():
         if not node in gene_annotation:
             network.remove_nodes(node)
-    print("Number of nodes in network after removing unannonated genes %d" % network.number_of_nodes())
+    print("Number of nodes in network after removing unannonated genes %d" %
+          network.number_of_nodes())
 
 
 def write_test2_prediction(proteins, predictions):
@@ -59,14 +59,14 @@ def write_test2_prediction(proteins, predictions):
 
 def predict_cps(proteins, hgraph, fgraph):
     """
-    Using the weight functions to predict 2 kind of graphs and make predictions.   
+    Using the weight functions to predict 2 kind of graphs and make predictions.
     Returns list of predictions, i.e. ['cancer','nonCancer', etc.]
 
-        Parameters
-        ----------
-        proteins: list of Protein instances.
-        hgraph: networkx.Graph() instance
-        fgraph: networkx.Graph() instance
+    Parameters
+    ----------
+    proteins: list of Protein instances.
+    hgraph: networkx.Graph() instance
+    fgraph: networkx.Graph() instance
     """
 
     prediction = []
@@ -76,3 +76,29 @@ def predict_cps(proteins, hgraph, fgraph):
         else:
             prediction.append('nonCancer')
     return prediction
+
+
+def get_shortest_path(hgraph):
+    """
+    Returns a dictionary where keys represent all the proteins in the graph
+    and values represent the number of occurences of non-cancer proteins
+    along the shortest paths between any two cancer proteins.
+    """
+    cps = [p for p in hgraph.nodes() if p.is_cancer_protein()]
+    aps = [p for p in hgraph.nodes()]
+
+    paths = []
+
+    for i in range(len(cps)):
+        p1 = cps[i]
+        for j in range(i, len(cps)):
+            p2 = cps[j]
+            paths.append(nx.shortest_path(hgraph, p1, p2))
+    flagged = {}
+    for p in aps:
+        flagged[p] = 0
+    for path in paths:
+        for p in path:
+            if not p.is_cancer_protein():
+                flagged[p] += 1
+    return flagged
